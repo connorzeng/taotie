@@ -13,8 +13,25 @@ import java.io.InputStreamReader;
 
 public class TestHttp {
 
-    private static int TIMES = 1000;
+    private static int TIMES = 1;
 
+
+    /**
+     * 测试请求自签名HTTPS网站.
+     * 本地需要先部署NG服务器,配置自签名https证书和key.
+     */
+    @Test
+    public void testHttps(){
+
+    }
+
+
+    /**
+     * 测试不使用http pool耗时,1000次请求;
+     * http://www.baidu.com     25s,25197ms
+     * https://www.baidu.com    5m:17s
+     * @throws IOException
+     */
     @Test
     public void testHttpRequest() throws IOException {
         long start = System.currentTimeMillis();
@@ -24,8 +41,14 @@ public class TestHttp {
         }
         long end = System.currentTimeMillis();
         System.out.println(end - start);
-        //25197 25s
     }
+
+    /**
+     * 测试不使用http pool耗时,1000次请求;
+     * http://www.baidu.com     10s
+     * https://www.baidu.com    1m:1s
+     * @throws IOException
+     */
     @Test
     public void testHttpRequestPool() throws IOException {
         long start = System.currentTimeMillis();
@@ -35,11 +58,11 @@ public class TestHttp {
         }
         long end = System.currentTimeMillis();
         System.out.println(end - start);
-        //10543 10s
     }
 
     private void doRequest(CloseableHttpClient closeableHttpClient) throws IOException {
-        HttpGet httpGet = new HttpGet("http://www.baidu.com");
+        HttpGet httpGet = new HttpGet("https://localhost:8888");//https://localhost:8888 https://www.baidu.com
+        //httpGet.setConfig();
         CloseableHttpResponse httpResponse = closeableHttpClient.execute(httpGet);
         InputStream in = httpResponse.getEntity().getContent();
         InputStreamReader read = new InputStreamReader(in, "UTF-8");

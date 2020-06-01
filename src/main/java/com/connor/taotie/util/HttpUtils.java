@@ -32,6 +32,7 @@ public class HttpUtils {
      * @return
      */
     public static CloseableHttpClient getHttpClient() {
+
         return HttpClients.custom().setDefaultConnectionConfig(connectionConfig)
                 .setConnectionManager(manager)
                 .setRetryHandler(new SisyphusHandler())
