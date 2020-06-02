@@ -24,7 +24,6 @@
     </properties>
 
     <dependencies>
-
         <!-- springboot web begin -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

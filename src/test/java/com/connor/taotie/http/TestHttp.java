@@ -13,18 +13,15 @@ import java.io.InputStreamReader;
 
 public class TestHttp {
 
-    private static int TIMES = 1;
+    private static int TIMES = 1000;
 
 
-    /**
-     * 测试请求自签名HTTPS网站.
-     * 本地需要先部署NG服务器,配置自签名https证书和key.
-     */
     @Test
-    public void testHttps(){
+    public void doRequestURL() throws IOException {
+
+        doRequest("https://test-b-fat.pingan.com.cn/mp_signature_info_a0331866b5.json");
 
     }
-
 
     /**
      * 测试不使用http pool耗时,1000次请求;
@@ -41,6 +38,7 @@ public class TestHttp {
         }
         long end = System.currentTimeMillis();
         System.out.println(end - start);
+        //25197 25s
     }
 
     /**
@@ -58,11 +56,26 @@ public class TestHttp {
         }
         long end = System.currentTimeMillis();
         System.out.println(end - start);
+        //10543 10s
     }
 
     private void doRequest(CloseableHttpClient closeableHttpClient) throws IOException {
-        HttpGet httpGet = new HttpGet("https://localhost:8888");//https://localhost:8888 https://www.baidu.com
-        //httpGet.setConfig();
+        HttpGet httpGet = new HttpGet("http://www.baidu.com");
+        CloseableHttpResponse httpResponse = closeableHttpClient.execute(httpGet);
+        InputStream in = httpResponse.getEntity().getContent();
+        InputStreamReader read = new InputStreamReader(in, "UTF-8");
+        char[] buffer = new char[1024];
+        int i = 0;
+        while ((i = read.read(buffer, 0, 1024)) != -1) {
+            //System.out.println(new String(buffer));
+        }
+        read.close();
+        httpResponse.close();
+    }
+
+    private void doRequest(String url) throws IOException {
+        CloseableHttpClient closeableHttpClient = HttpUtils.getHttpClient();
+        HttpGet httpGet = new HttpGet(url);
         CloseableHttpResponse httpResponse = closeableHttpClient.execute(httpGet);
         InputStream in = httpResponse.getEntity().getContent();
         InputStreamReader read = new InputStreamReader(in, "UTF-8");
