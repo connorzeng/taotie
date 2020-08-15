@@ -1,8 +1,18 @@
 package com.connor.taotie.container;
 
+import com.connor.taotie.dto.SupperMan;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * 用于测试Spring的各种容器
@@ -26,7 +36,7 @@ public class SpringTest {
 
     @Test
     public void testClassPathXmlApplicationContext(){
-
+        
         log.info("testClassPathXmlApplicationContext-begin");
 //        ApplicationContext context = new ClassPathXmlApplicationContext("spring-bean.xml");
         GenericApplicationContext context = new GenericApplicationContext();
